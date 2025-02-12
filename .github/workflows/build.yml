@@ -84,25 +84,3 @@ jobs:
           commitHash=$(git rev-parse --short "$GITHUB_SHA")
           artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/-$commitHash.jar/g")
           mv $artifactName1 $artifactName2
-          
-      - name: Deploy to DEV
-        env:
-          USERNAME: ${{ secrets.CONNECTEDAPPUSER }}
-          PASSWORD: ${{ secrets.CONNECTEDAPPPASS }}
-          ORGID: ${{ secrets.ORGCLIENTID }}
-          ORGSECRET: ${{ secrets.ORGCLIENTSECRET }}
-          KEY: ${{ secrets.ENCR_KEY }}
-        run: |
-          artifactName=$(ls *.jar | head -1)
-          mvn deploy -DskipMunitTests -DmuleDeploy \
-           -Dmule.artifact=$artifactName \
-           -Danypoint.username="$USERNAME" \
-           -Danypoint.password="$PASSWORD" \
-           -Dorg.client.id="$ORGID" \
-           -Dorg.client.secret="$ORGSECRET" \
-           -Dmule.workers="1" \
-           -Dmule.env="dev" \
-           -Dmule.workerType="Micro" \
-           -Dapplication.name="$REPO_NAME" \
-           -Dmule.region=us-east-2 \
-           -Dmule.encryptionKey="$KEY"
