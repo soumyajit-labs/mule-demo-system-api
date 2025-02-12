@@ -79,13 +79,6 @@
 			<version>1.2.6</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
-		<dependency>
-			<groupId>a70cf01e-09a0-4ffb-9409-f0c30de251e2</groupId>
-			<artifactId>mule-demo-system-api</artifactId>
-			<version>1.0.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
 	</dependencies>
 
 	<repositories>
