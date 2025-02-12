@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="mule-connect-system-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="mule-connect-system-api-config" api="resource::a70cf01e-09a0-4ffb-9409-f0c30de251e2:mule-connect-system-api:1.0.0:raml:zip:mule-connect-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<http:request-config name="mule-logger-sapi-request" doc:name="HTTP Request configuration" doc:id="6a60287d-fb0b-4269-952b-aa36530c353c" basePath="${muleApi.base}" >
+		<http:request-connection host="${muleApi.host}"/>
+		<http:default-headers >
+			<http:default-header key="client_id" value="${muleApi.clientId}" />
+			<http:default-header key="client_secret" value="${muleApi.clientSecret}" />
+		</http:default-headers>
+	</http:request-config>
+    <configuration-properties doc:name="Configuration properties" doc:id="ed012b75-69d1-48e7-90b8-aa383a2d384b" file="props-${mule.env}.yaml" />
+    <api-gateway:autodiscovery apiId="${mule.appId}" ignoreBasePath="false" doc:name="API Autodiscovery" doc:id="b9a78f56-3186-4c22-9166-1f1b61edc192" flowRef="mule-connect-system-api-main" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="6fad6a13-4a3d-4a87-b9d8-60e9225f9cd1" file="${mule.env}-secured-properties.yaml" key="${mule.encryptionKey}" />
+</mule>

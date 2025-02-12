@@ -1,0 +1,7 @@
+mule:
+  appId: "20041487"
+  
+muleApi:
+  host: "prod-mule-logger-system-api.us-e2.cloudhub.io"
+  port: "443"
+  base: "/api"
