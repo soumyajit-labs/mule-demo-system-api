@@ -71,16 +71,3 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 8
-      
-      - name: Build with Maven
-        env:
-          connectedapp_user: ${{ secrets.CONNECTEDAPPUSER }}
-          connectedapp_pass: ${{ secrets.CONNECTEDAPPPASS }}
-        run: mvn -B package --settings .maven/settings.xml --file pom.xml -DskipMunitTests
-
-      - name: Stamp artifact file name with commit hash
-        run: |
-          artifactName1=$(ls target/*.jar | head -1)
-          commitHash=$(git rev-parse --short "$GITHUB_SHA")
-          artifactName2=$(ls target/*.jar | head -1 | sed "s/.jar/-$commitHash.jar/g")
-          mv $artifactName1 $artifactName2
